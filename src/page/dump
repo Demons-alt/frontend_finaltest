@@ -1,0 +1,127 @@
+  const [isFeching, setFeching] = useState(false);
+  const [file, setFile] = useState(null);
+  const [dataTableInput, setDataTableInput] = useState([]);
+  const [redisKeyUpload, setRedisKeyUpload] = useState("");
+
+  const ChangeHandler = (e) => {
+    console.log(e.target.files[0]);
+    setFile(e.target.files[0]);
+
+    const tokenString = sessionStorage.getItem("token");
+    const Token = JSON.parse(tokenString);
+
+    const formData = new FormData();
+    formData.append("file", e.target.files[0]);
+
+    fetch("http://localhost:3001/activity/file", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        setDataTableInput(result);
+        setRedisKeyUpload(result[0].id);
+        setFeching(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log("submit");
+  };
+  console.log(dataTableInput);
+  return (
+    <div className="container is-fluid">
+      <div className="columns">
+        <Slidebar />
+        <div className="column">
+          <section className="hero is-info welcome ">
+            <div className="hero-body">
+              <div className="container is-fluid">
+                <h1 className="title">Create Ticket</h1>
+              </div>
+            </div>
+          </section>
+          <div className="container">
+            <section className="info-tiles">
+              <div className="field">
+                <h1 className="title label">Upload File</h1>
+                <input
+                  className="button is-left"
+                  type="file"
+                  name="file"
+                  accept=".xlsx"
+                  onChange={changeHandlerInput}
+                />
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+
+  {/* {isFetching ? (
+            <>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Nomor</th>
+                    <th>Description</th>
+                    <th>Tanggal</th>
+                    <th>Total Claim</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {dataTableInput &&
+                    dataTableInput.map((item, index) => {
+                      return (
+                        <tr>
+                          <td>{index + 1}</td>
+                          <td>{item.description}</td>
+                          <td>{item.activity_date}</td>
+                          <td>Rp.{item.total_claim},00-</td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+              <div className="dropdown">
+                <button className="dropbtn">Approval</button>
+                <div className="dropdown-content">
+                  {Creator &&
+                    Creator.map((item, index) => {
+                      return <a value={item.email}>{item.email}</a>;
+                    })}
+                </div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+          <button className="buttonTicket" disabled={!files} onClick={submit}>
+            Submit
+          </button> */}
+
+
+                                    {/* <td className="is-actions-cell">
+                            <div className="buttons is-half">
+                              <button
+                                className="button is-small is-primary"
+                                type="button"
+                              >
+                                <span className="d">
+                                  <i className="mdi mdi-eye">Approve</i>
+                                </span>
+                              </button>
+                              <button
+                                className="button is-small is-danger jb-modal"
+                                type="button"
+                              >
+                                <span className="d">
+                                  <i className="mdi mdi-trash-can">Rejecte</i>
+                                </span>
+                              </button>
+                            </div>
+                          </td> */}
