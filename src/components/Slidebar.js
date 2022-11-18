@@ -57,7 +57,7 @@ export const Slidebar = () => {
             </li>
             <p className="menu-label">Project Manager</p>
             <li>
-              <NavLink to="/ticket/list">List Ticket</NavLink>
+              <NavLink to="/ticket/list/pm">List Ticket</NavLink>
             </li>
             <li>
               <NavLink to="/User">List User</NavLink>

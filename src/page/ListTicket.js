@@ -28,6 +28,8 @@ export const ListTicket = () => {
       history("/login");
     }
   }
+
+
   const GetTicket = async () => {
     const response = await axios.get(
       `http://localhost:3001/ticket/list/${email}`,
@@ -94,11 +96,11 @@ function Update(params) {
                             <div className="buttons is-half">
                               <button
                                 className="button is-small is-primary"
-                                onClick={() => {
+                                onMouseEnter={() => {
                                   setIdTicket(item.ticket_id);
-                                  setUpdate("approve")
-                                  Update()
+                                  setUpdate("approve");
                                 }}
+                                onClick={() => Update()}
                                 type="button"
                               >
                                 <span className="d">
@@ -107,11 +109,11 @@ function Update(params) {
                               </button>
                               <button
                                 className="button is-small is-danger jb-modal"
-                                onClick={() => {
+                                onMouseEnter={() => {
                                   setIdTicket(item.ticket_id);
-                                  setUpdate("reject")
-                                  Update()
+                                  setUpdate("reject");
                                 }}
+                                onClick={() => Update()}
                                 type="button"
                               >
                                 <span className="d">

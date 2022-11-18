@@ -7,14 +7,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export const ListTicketPM = () => {
-    const {
-        project,
-      } = useSelector((state) => state.user);
+  const { project } = useSelector((state) => state.user);
   const Token = JSON.parse(sessionStorage.getItem("token"));
   const { email } = useSelector((state) => state.user);
   const [tickets, setTickets] = useState([]);
-  const [idIicket,setIdTicket] = useState("")
-  const [update, setUpdate] = useState("");
+  const [idIicket, setIdTicket] = useState();
+  const [update, setUpdate] = useState();
   const history = useNavigate();
 
   useEffect(() => {
@@ -50,16 +48,24 @@ export const ListTicketPM = () => {
     });
   };
 
-  const ApproveHandler = () => {
-    setUpdate("approve");
-    updated();
+  function Update(params) {
+    const respone = axios.put(`http://localhost:3001/ticket/status`, {
+      update: update,
+      id_ticket: idIicket,
+    });
+    console.log(respone);
+  }
+  function UpdatePM(params) {
+    const respone = axios.put(`http://localhost:3001/ticket/status/pm`, {
+      update: update,
+      id_ticket: idIicket,
+    });
+    console.log(respone);
+  }
+  const updatePM = () => {
+    UpdatePM();
   };
-  const RejectHandler = async () => {
-   await setUpdate("reject");
-    updated();
-  };
-  console.log("ID " + idIicket);
-console.log(tickets);
+
   return (
     <div className="container is-fluid">
       <div className="columns">
@@ -107,7 +113,13 @@ console.log(tickets);
                             <div className="buttons is-half">
                               <button
                                 className="button is-small is-primary"
-                                onClick={ApproveHandler }
+                                onMouseEnter={() => {
+                                  setIdTicket(item.ticket_id);
+                                  setUpdate("fahm@gmail.com");
+                                }}
+                                onClick={() => {
+                                  updatePM();
+                                }}
                                 type="button"
                               >
                                 <span className="d">
@@ -116,7 +128,11 @@ console.log(tickets);
                               </button>
                               <button
                                 className="button is-small is-danger jb-modal"
-                                onClick={()=>{ setIdTicket(item.ticket_id)}}
+                                onMouseEnter={() => {
+                                  setIdTicket(item.ticket_id);
+                                  setUpdate("reject");
+                                }}
+                                onClick={() => Update()}
                                 type="button"
                               >
                                 <span className="d">
@@ -125,7 +141,9 @@ console.log(tickets);
                               </button>
                               <button
                                 className="button is-small is-info jb-modal"
-                                onClick={()=> history(`/ticket/detail/${item.ticket_id}`)}
+                                onClick={() =>
+                                  history(`/ticket/detail/${item.ticket_id}`)
+                                }
                                 type="button"
                               >
                                 <span className="d">
